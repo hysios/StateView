@@ -1,0 +1,17 @@
+paths:
+    underscore: lib/underscore
+    jquery: jquery
+
+shim: 
+    jquery_ujs: 
+        deps:
+            - jquery
+
+    underscore:
+        exports: "_"
+
+    backbone: 
+        deps: 
+            - lib/underscore
+            - jquery
+        exports: "Backbone"

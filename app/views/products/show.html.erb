@@ -1,0 +1,8 @@
+          <td><%=r :title, @product.title %><%= rh :id, @product.id %></td>
+          <td><%=r :price, @product.price %></td>
+          <td><%= link_to 'Show', @product %></td>
+          <td><%= link_to 'Edit', edit_product_path(@product),  :'state-event' => 'click', :'state-transcation' => :editable %>
+          <%#= link_to 'Edit', "##{product.id}/edit" %>
+
+          </td>
+          <td><%= link_to 'Destroy', @product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
