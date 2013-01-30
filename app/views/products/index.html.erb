@@ -32,9 +32,10 @@
   </div>
 </div>
 <script type="text/javascript">
-  require(["products", 'backbone', "jquery_ujs"], function(ProductView, Backbone ){
+  require(["products", 'backbone', "jquery_ujs"], function(ProductView, Backbone ){    
+    var product_view = new ProductView()
     $("table tr:gt(0)").each(function(i, e){
-      view = new ProductView({ el: e, initial: 'show' });
+      product_view.add_row({ el: e, initial: 'show' });      
     });
     Backbone.history.start();
    

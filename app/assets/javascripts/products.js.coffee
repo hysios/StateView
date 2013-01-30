@@ -5,17 +5,23 @@
 
 define ['jquery', 'backbone', 'lib/restful-view'], ($, Backbone, RESTfulView) ->
 
-	class ProductRowView extends RESTfulView.ItemView
+    class ProductRowView extends RESTfulView.ItemView
 
-		urlRoot: "/products"
+        urlRoot: "/products"
 
 
-		# enterEdit: (event) ->
-		# 	alert "edit"
+        # enterEdit: (event) ->
+        #   alert "edit"
 
-		beforeBack: (event, from ,to) ->
-			if confirm("really quit editor?")
-				super
-			else 
-				false
+        beforeBack: (event, from ,to) ->
+            if confirm("really quit editor?")
+                super
+            else 
+                false
+
+    class ProductView extends Backbone.View
+
+        add_row : (options) ->
+            new ProductRowView(options)
+
 

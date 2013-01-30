@@ -71,14 +71,14 @@ define ["jquery", "backbone", "lib/state-machine", "lib/state-view", 'exports'],
 					console.log "event: #{event} from #{from} to #{to}"
 
 	
-		constructor: (@options) ->
+		constructor: (@options) ->			
 			@el = @options['el'] || @el
 			super
 			@model = @options['model'] || new @modelAdapter(@el)
 			@eventBoundder()
 			# ItemView.router ||= new ItemView.routeAdapter(@as, @)
 		
-		eventBoundder: () ->
+		eventBoundder: () ->			
 			@$("[state-transcation]").on EVENT_NAMES, (event) =>
 				trigger_event = $(event.target).attr("state-event") || "click"
 				if event.type == trigger_event
@@ -115,9 +115,15 @@ define ["jquery", "backbone", "lib/state-machine", "lib/state-view", 'exports'],
 			if to == 'update'
 				@$("form").append("<input name='_method' value='put' type='hidden' />")
 				url = @getStateUrl 'update'
-				$.post url, @$("form").serialize(), (data) =>
-					@transition()
-					@display(data)
+				
+				$.post( url, @$("form").serialize(), 
+					(data, state, xhr) =>			
+						debugger		
+						@transition()
+						@display(data)				
+				).error (data, state, xhr) => 
+					debugger
+
 
 				StateMachine.ASYNC
 
@@ -128,8 +134,8 @@ define ["jquery", "backbone", "lib/state-machine", "lib/state-view", 'exports'],
 			else
 				@getStateUrl 'create'
 
-			$.post url, @$("form").serialize(),  (event, data, xhr) =>
-				@save()
+			
+			@save()
 			false
 
 		render: () ->
@@ -167,6 +173,8 @@ define ["jquery", "backbone", "lib/state-machine", "lib/state-view", 'exports'],
 					joinPath @urlRoot, @model.get("id")				
 
 	class CollectionView extends StateView.AbstructStateView
+
+
 
 	exports.ItemView = ItemView
 	exports.CollectionView = CollectionView
