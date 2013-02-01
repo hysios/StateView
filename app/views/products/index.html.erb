@@ -2,43 +2,59 @@
   <div class="row">
     <div class="span12">
       <h1>Listing products</h1>
-      <table class="table">
-        <tr>
-          <th>标题</th>
-          <th>价格</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
+      <div class='new_product_display'>
+      </div>
+      <table class="table product_list">
+        <thead>
+          <tr>
+            <th>标题</th>
+            <th>价格</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>        
+          <% @products.each do |product| %>
+            <tr>
+              <td><%=r :title, product.title %><%= rh :id, product.id %></td>
+              <td><%=r :price, product.price %></td>
+              <td><%= link_to 'Show', product %></td>
+              <td><%= link_to 'Edit', edit_product_path(product),  :'state-event' => 'click', :'state-transcation' => :editable %>
+              <%#= link_to 'Edit', "##{product.id}/edit" %>
 
-      <% @products.each do |product| %>
-        <tr>
-          <td><%=r :title, product.title %><%= rh :id, product.id %></td>
-          <td><%=r :price, product.price %></td>
-          <td><%= link_to 'Show', product %></td>
-          <td><%= link_to 'Edit', edit_product_path(product),  :'state-event' => 'click', :'state-transcation' => :editable %>
-          <%#= link_to 'Edit', "##{product.id}/edit" %>
-
-          </td>
-          <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
+              </td>
+              <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>              
+            </tr>
+          <% end %>
+        </tbody>
       </table>
 
       <br />
 
-      <%= link_to 'New Product', new_product_path %>
+      <%= link_to 'New Product', new_product_path, :class => "new_product" %>
     </div>
   </div>
 </div>
+
 <script type="text/javascript">
   require(["products", 'backbone', "jquery_ujs"], function(ProductView, Backbone ){    
-    var product_view = new ProductView()
-    $("table tr:gt(0)").each(function(i, e){
-      product_view.add_row({ el: e, initial: 'show' });      
+    product_view = new ProductView({
+      new_tag_name : "div",
+      new_action_element: $(".new_product"),
+      display_new_callback: function(){                    
+        $(".new_product_display").html(this.el);
+      },
+      render_new_callback: function(){                                       
+        $("tbody").append(this.el)                          
+      }       
+    })
+    
+    $("table>tbody>tr").each(function(i, e){
+      product_view.bind_item_view({ el: e })      
     });
-    Backbone.history.start();
-   
+
+    Backbone.history.start();   
   });
 </script>
 
