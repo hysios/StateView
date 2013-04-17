@@ -47,7 +47,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
       else
-        format.html { render action: "new" }
+        format.html { render action: "new", status: :unprocessable_entity }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end
@@ -56,14 +56,15 @@ class ProductsController < ApplicationController
   # PUT /products/1
   # PUT /products/1.json
   def update
-    @product = Product.find(params[:id])
-
+    @product = Product.find(params[:id])    
     respond_to do |format|
       if @product.update_attributes(params[:product])
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html {           
+          redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html {           
+          render action: "edit",status: :unprocessable_entity }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end
@@ -89,4 +90,16 @@ class ProductsController < ApplicationController
     end
     super
   end
+
+  # def redirect_to(*args, &block)
+  #   if request.xhr?
+  #     options = args.extract_options!      
+  #     unless options[:notice].blank?        
+  #       response.headers["state_notice"] = options[:notice]
+  #     end
+  #     args.push options
+  #   end
+  #   super
+  # end
+
 end

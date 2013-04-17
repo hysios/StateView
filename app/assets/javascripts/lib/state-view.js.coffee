@@ -6,9 +6,7 @@ define ["jquery", "backbone", "lib/state-machine", 'exports'], ($, Backbone, Sta
 			string.charAt(0).toUpperCase() + string.substring(1).toLowerCase()
 
 
-	class AbstructStateView extends Backbone.View
-
-		PRIFIX_CALLBACK_METHODS = ["before", "leave", "enter", "after"]
+	class AbstructStateView extends Backbone.View	
 
 		constructor: (@options = {}) ->
 			super
@@ -48,7 +46,6 @@ define ["jquery", "backbone", "lib/state-machine", 'exports'], ($, Backbone, Sta
 			for prefix in set
 				attribute = "on#{prefix}#{name}"
 				func = "#{prefix}#{_(name).capitalize()}"
-				console.log func
 				if _.isFunction(@[func])
 					handle.call @, attribute, @[func]
 

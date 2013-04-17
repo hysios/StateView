@@ -5,17 +5,19 @@
 
 define ['jquery', 'backbone', 'lib/restful-view'], ($, Backbone, RESTfulView) ->
 
-	class ProductRowView extends RESTfulView.ItemView
+    class ProductRowView extends RESTfulView.ItemView
+        tagName: 'tr'
 
-		urlRoot: "/products"
+        urlRoot: "/products"
+
+        initial: 'show'
 
 
-		# enterEdit: (event) ->
-		# 	alert "edit"
+    class ProductView extends RESTfulView.CollectionView
+    
+        itemAdapter: ProductRowView
 
-		beforeBack: (event, from ,to) ->
-			if confirm("really quit editor?")
-				super
-			else 
-				false
+        
+        
+
 
